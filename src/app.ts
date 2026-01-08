@@ -13,4 +13,4 @@ export const app: Express = express();
 standardMiddlewares(app);
 appRoutes(app);
 startServer(app);
-app.use(errorhandler);
+errorhandler(app);
