@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { Sequelize } from 'sequelize';
 
 const {
@@ -7,6 +10,16 @@ const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
 } = process.env;
+
+if (
+  !POSTGRES_HOST ||
+  !POSTGRES_PORT ||
+  !POSTGRES_DB ||
+  !POSTGRES_USER ||
+  !POSTGRES_PASSWORD
+) {
+  throw new Error('Missing required PostgreSQL environment variables');
+}
 
 export const sequelize = new Sequelize(
   POSTGRES_DB!,
