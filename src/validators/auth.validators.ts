@@ -1,7 +1,7 @@
 import { body } from 'express-validator';
 import { UserStatusType } from '../types/user.types';
 
-export const registerUserValidator = [
+export const registerValidator = [
   body('email')
     .isEmail()
     .withMessage('Must be a valid email address')
@@ -47,5 +47,33 @@ export const registerUserValidator = [
     .withMessage('Country is required')
     .isLength({ max: 25 })
     .withMessage('Country must not exceed 25 characters')
+    .trim(),
+];
+
+export const verifyOtpValidator = [
+  body('email')
+    .isEmail()
+    .withMessage('Must be a valid email address')
+    .normalizeEmail(),
+
+  body('otp')
+    .notEmpty()
+    .withMessage('OTP is required')
+    .isLength({ min: 6, max: 6 })
+    .withMessage('OTP must be 6 characters long')
+    .trim(),
+];
+
+export const loginValidator = [
+  body('email')
+    .isEmail()
+    .withMessage('Must be a valid email address')
+    .normalizeEmail(),
+
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 8, max: 255 })
+    .withMessage('Password must be at least 8 characters long')
     .trim(),
 ];

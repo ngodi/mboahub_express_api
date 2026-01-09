@@ -1,8 +1,29 @@
 import { Router } from 'express';
-import { registerUserValidator } from '../validators/user.validators';
+import {
+  loginValidator,
+  registerValidator,
+  verifyOtpValidator,
+} from '../validators/auth.validators';
 import { authController } from '../controllers/auth.controller';
+import { validateRequest } from '../validators/validateRequests';
 
 export const authRouter = Router();
 
-authRouter.post('/register', registerUserValidator, authController.register);
-authRouter.post('/verify', authController.verifyOtp);
+authRouter.post(
+  '/register',
+  registerValidator,
+  validateRequest,
+  authController.register
+);
+authRouter.post(
+  '/verify',
+  verifyOtpValidator,
+  validateRequest,
+  authController.verifyOtp
+);
+authRouter.post(
+  '/login',
+  loginValidator,
+  validateRequest,
+  authController.login
+);

@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { registerUser, verifyEmailOtp } from '../services/db/auth.service';
+import {
+  loginUser,
+  registerUser,
+  verifyEmailOtp,
+} from '../services/db/auth.service';
 import { StatusCodes } from 'http-status-codes';
 
 class AuthController {
@@ -19,6 +23,23 @@ class AuthController {
       return res.status(StatusCodes.OK).json({
         message: 'Email verified successfully',
         data: user,
+      });
+    }
+  };
+
+  login = async (req: Request, res: Response, next: NextFunction) => {
+    const { email, password } = req.body;
+    const { user, accessToken, refreshToken } = (await loginUser(
+      email,
+      password,
+      res,
+      next
+    )) as any;
+
+    if (user) {
+      return res.status(StatusCodes.OK).json({
+        message: 'Login successful!',
+        data: { user, accessToken, refreshToken },
       });
     }
   };

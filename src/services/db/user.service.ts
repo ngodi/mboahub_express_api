@@ -1,6 +1,8 @@
 import { NextFunction } from 'express';
-import { NotFoundError } from '../../errors/custom-error';
-import { UserCreationAttributes } from '../../interfaces/user.interface';
+import {
+  UserCreationAttributes,
+  UserInterface,
+} from '../../interfaces/user.interface';
 import { User } from '../../models/users';
 import { BcryptLib } from '../../libs/bcrypt.lib';
 
@@ -8,7 +10,7 @@ export class UserService {
   static existingUser = async (email: string) => {
     let user = null;
     try {
-      user = await User.findOne({ where: { email } });
+      user = (await User.findOne({ where: { email } })) as UserInterface | null;
       return user;
     } catch {
       if (user === null) return null;

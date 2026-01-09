@@ -13,6 +13,10 @@ class Config {
   OTP_REQUEST_WINDOW: number;
   OTP_ATTEMPTS_WINDOW: number;
   OTP_LOCK_WINDOW: number;
+  ACCESS_TOKEN_SECRET: string = process.env.ACCESS_TOKEN_SECRET!;
+  REFRESH_TOKEN_SECRET: string = process.env.REFRESH_TOKEN_SECRET!;
+  ACCESS_TOKEN_EXPIRY: string = process.env.ACCESS_TOKEN_EXPIRY!;
+  REFRESH_TOKEN_EXPIRY: string = process.env.REFRESH_TOKEN_EXPIRY!;
 
   constructor() {
     this.PORT = process.env.PORT! || '6000';
@@ -27,6 +31,10 @@ class Config {
     this.OTP_ATTEMPTS_WINDOW =
       parseInt(process.env.OTP_ATTEMPTS_WINDOW!) || 900;
     this.OTP_LOCK_WINDOW = parseInt(process.env.OTP_LOCK_WINDOW!) || 1800;
+    this.ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
+    this.REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
+    this.ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY!;
+    this.REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY!;
   }
 }
 
