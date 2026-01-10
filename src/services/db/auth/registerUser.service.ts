@@ -3,7 +3,7 @@ import { UserCreationAttributes } from '../../../interfaces/user.interface';
 import { ValidationError } from '../../../errors/custom-error';
 import { AuthHelpers } from '../../helpers/auth.helpers';
 import { emailQueue } from '../../../queues/email.queue';
-import { UserService } from '../user/user.service';
+import { UserService } from '../users/user.service';
 
 export const registerUser = async (
   payload: UserCreationAttributes,

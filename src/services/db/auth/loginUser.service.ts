@@ -3,7 +3,7 @@ import {
   NotAuthorizedError,
   NotFoundError,
 } from '../../../errors/custom-error';
-import { UserService } from '../user/user.service';
+import { UserService } from '../users/user.service';
 import { BcryptLib } from '../../../libs/bcrypt.lib';
 import jwt from 'jsonwebtoken';
 import { setCookie } from '../../helpers/cookieSettings';

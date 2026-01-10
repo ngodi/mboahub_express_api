@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ValidationError } from '../../../errors/custom-error';
-import { UserService } from '../user/user.service';
+import { UserService } from '../users/user.service';
 import { AuthHelpers } from '../../helpers/auth.helpers';
 import { emailQueue } from '../../../queues/email.queue';
 

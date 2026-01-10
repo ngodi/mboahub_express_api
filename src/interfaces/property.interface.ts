@@ -7,6 +7,7 @@ import {
 
 export interface PropertyInterface {
   id?: string;
+  userId?: string;
   title: string;
   propertyType: PropertyType;
   propertyCategory: PropertyCategory;
