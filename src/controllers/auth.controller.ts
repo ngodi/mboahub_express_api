@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  loginUser,
-  registerUser,
-  verifyEmailOtp,
-} from '../services/db/auth.service';
 import { StatusCodes } from 'http-status-codes';
+import { authService } from '../services/db/auth';
 
 class AuthController {
   register = async (req: Request, res: Response, next: NextFunction) => {
-    const result = await registerUser(req.body, next);
+    const result = await authService.registerUser(req.body, next);
     if (result) {
       return res.status(StatusCodes.OK).json({
         message: 'OTP sent to your email for activation',
@@ -18,7 +14,7 @@ class AuthController {
 
   verifyOtp = async (req: Request, res: Response, next: NextFunction) => {
     const { email, otp } = req.body;
-    const user = await verifyEmailOtp(email, otp, next);
+    const user = await authService.verifyEmailOtp(email, otp, next);
     if (user) {
       return res.status(StatusCodes.OK).json({
         message: 'Email verified successfully',
@@ -29,7 +25,7 @@ class AuthController {
 
   login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    const { user, accessToken, refreshToken } = (await loginUser(
+    const { user, accessToken, refreshToken } = (await authService.loginUser(
       email,
       password,
       res,

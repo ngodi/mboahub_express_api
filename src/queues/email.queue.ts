@@ -9,7 +9,8 @@ export interface SendEmailJob {
   templateName: string;
 }
 
-export const emailQueue = new Queue<SendEmailJob>('user-activation-mail', {
+export const emailQueue = new Queue<SendEmailJob>('otp-activation-queue', {
+  //queue name
   connection: redisConnectionQueue,
   defaultJobOptions: {
     attempts: 3,

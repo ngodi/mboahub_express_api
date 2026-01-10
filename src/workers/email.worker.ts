@@ -6,7 +6,7 @@ import { otpService } from '../services/redis/otpSevice';
 import { redisConnectionQueue } from '../queues/connection';
 
 export const emailWorker = new Worker<SendEmailJob>(
-  'user-activation-mail',
+  'otp-activation-queue', // queue name
   async (job) => {
     const { to, name, subject, templateName } = job.data;
     const otp = createOtp();
