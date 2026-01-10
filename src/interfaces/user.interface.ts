@@ -2,7 +2,7 @@ import { Model, Optional } from 'sequelize';
 import { UserStatusType } from '../types/user.types';
 
 export interface UserInterface {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   password?: string;
