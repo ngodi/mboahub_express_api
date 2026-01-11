@@ -1,8 +1,8 @@
 import { Request } from 'express';
 
 // Filters query options and set the values for the database query.
-export const prepareQueryOptions = (req: Request) => {
-  const queryOptions = {
+export const prepareQueryParams = (req: Request) => {
+  const queryParams = {
     sortBy: req.query.sortBy
       ? (req.query.sortBy as string).split(',').map((field) => field.trim())
       : ['created_at'],
@@ -22,5 +22,5 @@ export const prepareQueryOptions = (req: Request) => {
     filters: req.query.filters,
   };
 
-  return queryOptions;
+  return queryParams;
 };

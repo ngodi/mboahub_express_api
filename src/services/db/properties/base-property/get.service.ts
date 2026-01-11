@@ -1,8 +1,8 @@
-import { PropertyModel } from '../../../interfaces/property.interface';
-import { Property } from '../../../models/properties';
-import { NotFoundError } from '../../../errors/custom-error';
+import { PropertyModel } from '../../../../interfaces/property.interface';
+import { Property } from '../../../../models/properties';
+import { NotFoundError } from '../../../../errors/custom-error';
 
-export class GetPropertyById {
+export class GetById {
   constructor(private readonly id: string) {}
 
   async execute(): Promise<PropertyModel> {

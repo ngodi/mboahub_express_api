@@ -4,7 +4,7 @@ import { BadRequestError } from '../errors/custom-error';
 
 export const fetchRecords = async (
   resource: any,
-  include: any,
+  includes: any,
   options: {
     sortBy?: string[];
     page?: number;
@@ -30,7 +30,7 @@ export const fetchRecords = async (
     // Query users with filter
     const { rows: resources, count: totalCount } =
       await resource.findAndCountAll({
-        include: include,
+        include: includes,
         attributes: validFields,
         where: buildFilter(resource, options.filters, validFields),
         order: orderDirection,
@@ -54,7 +54,7 @@ export const fetchRecords = async (
 
 const buildFilter = (
   resource: any,
-  queryOptions: any,
+  queryfilters: any,
   fields?: string[]
 ): WhereOptions => {
   const where: WhereOptions = {};
@@ -63,9 +63,9 @@ const buildFilter = (
   // Use all model fields if none are provided
   const allowedFilters = fields ?? Object.keys(modelAttributes);
 
-  if (queryOptions) {
+  if (queryfilters) {
     allowedFilters.forEach((field) => {
-      const value = queryOptions[field];
+      const value = queryfilters[field];
 
       // Skip if value is undefined or field doesn't exist in model
       if (value === undefined || !modelAttributes[field]) return;
