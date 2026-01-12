@@ -3,6 +3,7 @@ import { NotFoundError } from './errors/custom-error';
 import { authRouter } from './routes/auth.router';
 import { passwordRouter } from './routes/password.router';
 import { userRouter } from './routes/user.router';
+import { uploadRouter } from './routes/upload.router';
 
 export const appRoutes = (app: Application) => {
   app.get('/health', (_req: Request, res: Response) => {
@@ -17,7 +18,11 @@ export const appRoutes = (app: Application) => {
   // password routes
   app.use('/api/v1/password', passwordRouter);
 
+  // user routes
   app.use('/api/v1/users', userRouter);
+
+  // upload routes
+  app.use('/api/v1/upload', uploadRouter);
 
   app.use((req: Request, res: Response, _next: NextFunction) => {
     throw new NotFoundError('Route not found', 'ROUTE_NOT_FOUND');
