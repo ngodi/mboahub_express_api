@@ -3,6 +3,7 @@ import { checkRedisConnection } from './config/redisConnection';
 import { connectWithRetry } from './connectDb';
 import { UserModel } from './interfaces/user.interface';
 import { emailWorker } from './workers/email.worker';
+import './models';
 
 const PORT = config.PORT || 6000;
 

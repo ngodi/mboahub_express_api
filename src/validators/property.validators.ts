@@ -12,8 +12,8 @@ export const createPropertyValidator = [
   body('title')
     .notEmpty()
     .withMessage('Title is required')
-    .isLength({ min: 3, max: 30 })
-    .withMessage('Title must be between 3 and 30 characters')
+    .isLength({ min: 3, max: 50 })
+    .withMessage('Title must be between 3 and 50 characters')
     .trim(),
 
   body('propertyType')
@@ -141,8 +141,8 @@ export const createPropertyValidator = [
 export const updatePropertyValidator = [
   body('title')
     .optional()
-    .isLength({ min: 3, max: 30 })
-    .withMessage('Title must be between 3 and 30 characters')
+    .isLength({ min: 3, max: 50 })
+    .withMessage('Title must be between 3 and 50 characters')
     .trim(),
 
   body('propertyType')

@@ -13,7 +13,7 @@ export class CreateProperty {
   async execute(): Promise<PropertyModel> {
     const property = await Property.create({
       ...this.payload,
-      userId: this.userId,
+      user_id: this.userId,
     });
 
     return property.toJSON() as PropertyModel;

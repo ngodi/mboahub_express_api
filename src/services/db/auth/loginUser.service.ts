@@ -37,7 +37,7 @@ export const loginUser = async (
         name: user.dataValues.name,
       },
       process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: '15m' }
+      { expiresIn: '7d' }
     );
 
     const refreshToken = jwt.sign(

@@ -21,15 +21,25 @@ export const Property: ModelDefined<
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
 
     title: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(50),
       allowNull: false,
       validate: {
         notEmpty: { msg: 'Title is required' },
         len: {
-          args: [3, 30],
-          msg: 'Title must be between 3 and 30 characters',
+          args: [3, 50],
+          msg: 'Title must be between 3 and 50   characters',
         },
       },
     },

@@ -23,6 +23,16 @@ export const errorhandler = (app: Application): void => {
       });
     }
 
+    // TokenExpiredError
+    if (err.name === 'TokenExpiredError') {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        message: 'Token has expired',
+        statusCode: StatusCodes.UNAUTHORIZED,
+        success: false,
+        error: 'TOKEN_EXPIRED',
+      });
+    }
+
     //SequelizeValidationError
     if (err.name === 'SequelizeValidationError') {
       return res.status(StatusCodes.BAD_REQUEST).json({
