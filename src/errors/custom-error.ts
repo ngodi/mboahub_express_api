@@ -52,6 +52,17 @@ class NotAuthorizedError extends CustomError {
   }
 }
 
+class TokenExpiredError extends CustomError {
+  statusCode = StatusCodes.UNAUTHORIZED;
+
+  constructor(
+    message: string = 'Token has expired',
+    error: string = 'TOKEN_EXPIRED'
+  ) {
+    super(message, error);
+    Object.setPrototypeOf(this, TokenExpiredError.prototype);
+  }
+}
 class ForbiddenError extends CustomError {
   statusCode = StatusCodes.FORBIDDEN;
 
@@ -123,6 +134,7 @@ export {
   UniqueConstraintError,
   TooManyRequestsError,
   NotAuthorizedError,
+  TokenExpiredError,
   NotFoundError,
   CustomError,
   ValidationError,

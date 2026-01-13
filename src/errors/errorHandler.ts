@@ -4,6 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 
 export const errorhandler = (app: Application): void => {
   app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.log(err);
     if (err.name === 'SequelizeUniqueConstraintError') {
       return res.status(StatusCodes.CONFLICT).json({
         message: err.message,
@@ -19,6 +20,16 @@ export const errorhandler = (app: Application): void => {
         statusCode: StatusCodes.BAD_REQUEST,
         success: false,
         error: 'BAD_REQUEST',
+      });
+    }
+
+    // TokenExpiredError
+    if (err.name === 'TokenExpiredError') {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        message: 'Token has expired',
+        statusCode: StatusCodes.UNAUTHORIZED,
+        success: false,
+        error: 'TOKEN_EXPIRED',
       });
     }
 
