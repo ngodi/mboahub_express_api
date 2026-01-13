@@ -9,8 +9,7 @@
     "start": "node dist/app.js",
     "lint": "eslint 'src/**/*.{ts,js}'",
     "lint:fix": "eslint 'src/**/*.{ts,js}' --fix",
-    "format": "prettier --write 'src/**/*.{ts,js,json}'",
-    "auth-docs": "node src/swagger.js"
+    "format": "prettier --write 'src/**/*.{ts,js,json}'"
   },
   "keywords": [],
   "author": "",
