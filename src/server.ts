@@ -5,7 +5,7 @@ import { UserModel } from './interfaces/user.interface';
 import { emailWorker } from './workers/email.worker';
 import './models';
 
-const PORT = config.PORT || 6000;
+const PORT = config.PORT || 5000;
 
 declare global {
   namespace Express {

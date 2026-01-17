@@ -1,6 +1,5 @@
 import { Worker } from 'bullmq';
 import { SendEmailJob } from '../queues/email.queue';
-import { createOtp } from '../libs/crypto.lib';
 import { sendEmail } from '../services/email/sendMail';
 import { otpService } from '../services/redis/otpSevice';
 import { redisConnectionQueue } from '../queues/connection';
@@ -8,8 +7,7 @@ import { redisConnectionQueue } from '../queues/connection';
 export const emailWorker = new Worker<SendEmailJob>(
   'otp-activation-queue', // queue name
   async (job) => {
-    const { to, name, subject, templateName } = job.data;
-    const otp = createOtp();
+    const { to, name, subject, otp, templateName } = job.data;
     await sendEmail(to, subject, templateName, { to, otp, name });
     await otpService.setOtp(to, otp);
     await otpService.setOtpCooldown(to);

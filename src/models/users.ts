@@ -59,7 +59,7 @@ export const User: ModelDefined<UserInterface, UserCreationAttributes> =
 
       phoneNumber: {
         type: DataTypes.STRING(18),
-        allowNull: false,
+        allowNull: true,
         validate: {
           notEmpty: { msg: 'Phone number is required' },
           len: {
@@ -82,11 +82,11 @@ export const User: ModelDefined<UserInterface, UserCreationAttributes> =
       },
       city: {
         type: DataTypes.STRING(25),
-        allowNull: false,
+        allowNull: true,
       },
       country: {
         type: DataTypes.STRING(25),
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

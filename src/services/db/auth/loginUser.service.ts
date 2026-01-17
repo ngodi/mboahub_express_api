@@ -6,7 +6,8 @@ import {
 import { UserService } from '../users/user.service';
 import { BcryptLib } from '../../../libs/bcrypt.lib';
 import jwt from 'jsonwebtoken';
-import { setCookie } from '../../helpers/cookieSettings';
+import { setCookie } from '../../../helpers/cookieSettings';
+import { config } from '../../../config';
 
 export const loginUser = async (
   email: string,
@@ -36,7 +37,7 @@ export const loginUser = async (
         email: user.dataValues.email,
         name: user.dataValues.name,
       },
-      process.env.ACCESS_TOKEN_SECRET!,
+      config.ACCESS_TOKEN_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -46,7 +47,7 @@ export const loginUser = async (
         email: user.dataValues.email,
         name: user.dataValues.name,
       },
-      process.env.REFRESH_TOKEN_SECRET!,
+      config.REFRESH_TOKEN_SECRET,
       { expiresIn: '7d' }
     );
 

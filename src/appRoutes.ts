@@ -5,6 +5,7 @@ import { passwordRouter } from './routes/password.router';
 import { userRouter } from './routes/user.router';
 import { uploadRouter } from './routes/upload.router';
 import { propertyRouter } from './routes/property.router';
+import { meRouter } from './routes/me.router';
 
 export const appRoutes = (app: Application) => {
   app.get('/health', (_req: Request, res: Response) => {
@@ -15,6 +16,8 @@ export const appRoutes = (app: Application) => {
 
   // auth routes
   app.use('/api/v1/auth', authRouter);
+
+  app.use('/api/v1/me', meRouter);
 
   // password routes
   app.use('/api/v1/password', passwordRouter);

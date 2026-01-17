@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express';
 import { ValidationError } from '../../../errors/custom-error';
-import { AuthHelpers } from '../../helpers/auth.helpers';
+import { AuthHelpers } from '../../../helpers/auth.helpers';
 import { UserService } from '../users/user.service';
 import { User } from '../../../models/users';
 import { BcryptLib } from '../../../libs/bcrypt.lib';

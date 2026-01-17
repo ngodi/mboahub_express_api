@@ -21,6 +21,9 @@ authRouter.post(
   validateRequest,
   authController.verifyOtp
 );
+
+authRouter.post('/otp-resend', authController.resendOtp);
+
 authRouter.post(
   '/login',
   loginValidator,

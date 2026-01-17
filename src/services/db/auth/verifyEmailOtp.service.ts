@@ -5,13 +5,13 @@ import {
   NotFoundError,
   ValidationError,
 } from '../../../errors/custom-error';
-import { AuthHelpers } from '../../helpers/auth.helpers';
+import { AuthHelpers } from '../../../helpers/auth.helpers';
 import { emailQueue } from '../../../queues/email.queue';
 import { UserService } from '../users/user.service';
 import { User } from '../../../models/users';
 import { BcryptLib } from '../../../libs/bcrypt.lib';
 import jwt from 'jsonwebtoken';
-import { setCookie } from '../../helpers/cookieSettings';
+import { setCookie } from '../../../helpers/cookieSettings';
 
 export const verifyEmailOtp = async (
   email: string,

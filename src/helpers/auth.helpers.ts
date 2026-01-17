@@ -1,7 +1,9 @@
 import { NextFunction } from 'express';
-import { ValidationError } from '../../errors/custom-error';
-import { OTP_KEY, otpService } from '../redis/otpSevice';
-import { redisConnection } from '../../config/redisConnection';
+import { ValidationError } from '../errors/custom-error';
+import { OTP_KEY, otpService } from '../services/redis/otpSevice';
+import { redisConnection } from '../config/redisConnection';
+import { generateOtp } from '../libs/crypto.lib';
+import { emailQueue } from '../queues/email.queue';
 
 export class AuthHelpers {
   static async checkOtpRestrictions(email: string, next: NextFunction) {
@@ -80,5 +82,33 @@ export class AuthHelpers {
     }
 
     await redisConnection.del(`otp:${email}`, failedAttemptsKey);
+  }
+
+  static async sendOtp(
+    payload: {
+      email: string;
+      name?: string | null;
+      subject: string;
+      templateName: string;
+    },
+    next: NextFunction
+  ) {
+    try {
+      await AuthHelpers.checkOtpRestrictions(payload.email, next);
+      await AuthHelpers.trackOtpRequests(payload.email, next);
+      const otp = generateOtp();
+      await emailQueue.add('send-otp-email', {
+        //job name
+        to: payload.email,
+        name: payload.name || '',
+        subject: payload.subject,
+        otp,
+        templateName: payload.templateName,
+      });
+
+      return true;
+    } catch (error) {
+      return next(error);
+    }
   }
 }

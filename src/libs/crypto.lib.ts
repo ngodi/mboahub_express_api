@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 
-export const createOtp = () => {
+export const generateOtp = () => {
   const otp = crypto.randomInt(1000, 9999).toString();
   return otp;
 };

@@ -6,6 +6,7 @@ export interface SendEmailJob {
   to: string;
   name: string;
   subject: string;
+  otp: string;
   templateName: string;
 }
 

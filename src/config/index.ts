@@ -3,6 +3,7 @@ dotenv.config();
 
 class Config {
   PORT: string;
+  NODE_ENV: string;
   CLIENT_URL: string;
   REDIS_URL: string = process.env.REDIS_URL || 'redis://localhost:6379';
   REDIS_HOST: String;
@@ -20,6 +21,7 @@ class Config {
 
   constructor() {
     this.PORT = process.env.PORT! || '6000';
+    this.NODE_ENV = process.env.NODE_ENV || 'development';
     this.CLIENT_URL = process.env.CLIENT_URL!;
     this.REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
     this.REDIS_HOST = process.env.REDIS_HOST!;
