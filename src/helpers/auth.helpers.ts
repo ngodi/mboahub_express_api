@@ -8,24 +8,20 @@ import { emailQueue } from '../queues/email.queue';
 export class AuthHelpers {
   static async checkOtpRestrictions(email: string, next: NextFunction) {
     if (await otpService.isInOtpLock(email)) {
-      return next(
-        new ValidationError(
-          'Account locked due to multiple failed attempts! Try again after 30 minutes'
-        )
+      throw new ValidationError(
+        'Account locked due to multiple failed attempts! Try again after 30 minutes'
       );
     }
 
     if (await otpService.isInOtpSpamLock(email)) {
-      return next(
-        new ValidationError(
-          'Too many OTP requests! Please wait 1 hour before requesting again.'
-        )
+      throw new ValidationError(
+        'Too many OTP requests! Please wait 1 hour before requesting again.'
       );
     }
 
     if (await otpService.isInOtpCooldown(email)) {
-      return next(
-        new ValidationError('Please wait 1 minute before requesting a new OTP!')
+      throw new ValidationError(
+        'Please wait 1 minute before requesting a new OTP!'
       );
     }
   }
@@ -36,10 +32,8 @@ export class AuthHelpers {
     if (otpRequests >= 2) {
       await otpService.setOtpSpamLock(email);
 
-      return next(
-        new ValidationError(
-          'Too many OTP requests, Please wait 1 hour before requesting again.'
-        )
+      throw new ValidationError(
+        'Too many OTP requests, Please wait 1 hour before requesting again.'
       );
     }
 
@@ -55,7 +49,7 @@ export class AuthHelpers {
     const storedOtp = await otpService.getOtp(email);
 
     if (!storedOtp) {
-      return next(new ValidationError('Invalid or expired OTP!'));
+      throw new ValidationError('Invalid or expired OTP!');
     }
 
     const failedAttemptsKey = `otp_attempts:${email}`;
@@ -74,10 +68,8 @@ export class AuthHelpers {
         'EX',
         300
       );
-      return next(
-        new ValidationError(
-          `Incorrect OTP. ${2 - failedAttempts} attempts left.`
-        )
+      throw new ValidationError(
+        `Incorrect OTP. ${2 - failedAttempts} attempts left.`
       );
     }
 
@@ -96,7 +88,12 @@ export class AuthHelpers {
     try {
       await AuthHelpers.checkOtpRestrictions(payload.email, next);
       await AuthHelpers.trackOtpRequests(payload.email, next);
+
       const otp = generateOtp();
+
+      await otpService.setOtp(payload.email, otp);
+      await otpService.setOtpCooldown(payload.email);
+
       await emailQueue.add('send-otp-email', {
         //job name
         to: payload.email,

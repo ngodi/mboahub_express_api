@@ -8,6 +8,7 @@ class UserController {
     if (!user) {
       throw new NotFoundError('User Not found');
     }
+
     return res.status(StatusCodes.OK).json({
       message: 'User retrieved successfully',
       data: user,

@@ -8,6 +8,7 @@ import { BcryptLib } from '../../../libs/bcrypt.lib';
 import jwt from 'jsonwebtoken';
 import { setCookie } from '../../../helpers/cookieSettings';
 import { config } from '../../../config';
+import { StatusCodes } from 'http-status-codes';
 
 export const loginUser = async (
   email: string,
@@ -20,6 +21,14 @@ export const loginUser = async (
 
     if (!user) {
       return next(new NotFoundError("User doesn't exists!"));
+    }
+
+    if (!user.emailVerified) {
+      return res.status(StatusCodes.ACCEPTED).json({
+        status: false,
+        message: 'Please verify your email!',
+        meta: { error: 'EMAIL_VERIFY_ERROR', user },
+      });
     }
 
     const isMatch = await BcryptLib.comparePassword(

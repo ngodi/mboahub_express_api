@@ -4,6 +4,7 @@ import { UserService } from '../users/user.service';
 import { AuthHelpers } from '../../../helpers/auth.helpers';
 import { emailQueue } from '../../../queues/email.queue';
 import { generateOtp } from '../../../libs/crypto.lib';
+import { otpService } from '../../redis/otpSevice';
 
 export const forgotPassword = async (email: string, next: NextFunction) => {
   try {
@@ -11,9 +12,14 @@ export const forgotPassword = async (email: string, next: NextFunction) => {
 
     if (!user) throw new ValidationError('User not found!');
 
-    await AuthHelpers.checkOtpRestrictions(email, next);
-    await AuthHelpers.trackOtpRequests(email, next);
+    // await AuthHelpers.checkOtpRestrictions(email, next);
+    // await AuthHelpers.trackOtpRequests(email, next);
+
     const otp = generateOtp();
+
+    await otpService.setOtp(email, otp);
+    await otpService.setOtpCooldown(email);
+    console.log(otp);
     await emailQueue.add('send-otp-email', {
       //job name
       to: email,

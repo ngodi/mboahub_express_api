@@ -29,7 +29,7 @@ class AuthController {
     if (!req.body.email) {
       throw new ValidationError('Email is required');
     }
-    return await AuthHelpers.sendOtp(
+    await AuthHelpers.sendOtp(
       {
         email: req.body.email,
         subject: 'User OTP Verification',
@@ -37,6 +37,9 @@ class AuthController {
       },
       next
     );
+    return res.status(StatusCodes.OK).json({
+      message: 'OTP sent successfully',
+    });
   };
 
   login = async (req: Request, res: Response, next: NextFunction) => {
@@ -54,6 +57,13 @@ class AuthController {
         data: { user, accessToken, refreshToken },
       });
     }
+  };
+
+  logout = async (req: Request, res: Response, next: NextFunction) => {
+    res.clearCookie('access_token');
+    res.clearCookie('refresh_token');
+
+    res.status(StatusCodes.NO_CONTENT).json();
   };
 }
 
