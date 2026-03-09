@@ -9,6 +9,7 @@ class PropertyController {
     const property = await propertyService.create(req.body, user?.id!);
 
     res.status(StatusCodes.CREATED).json({
+      success: true,
       message: 'Property created successfully',
       data: property,
     });
@@ -18,6 +19,7 @@ class PropertyController {
     const property = await propertyService.getById(req.params.id);
 
     res.status(StatusCodes.OK).json({
+      success: true,
       message: 'Property retrieved successfully',
       data: property,
     });
@@ -27,6 +29,7 @@ class PropertyController {
     const property = await propertyService.update(req.params.id, req.body);
 
     res.status(StatusCodes.OK).json({
+      success: true,
       message: 'Property updated successfully',
       data: property,
     });
@@ -40,6 +43,7 @@ class PropertyController {
     );
 
     res.status(StatusCodes.OK).json({
+      success: true,
       message: 'Properties retrieved successfully',
       data: properties,
       meta,
@@ -50,6 +54,7 @@ class PropertyController {
     const { properties, meta } = await propertyService.getAll(req);
 
     res.status(StatusCodes.OK).json({
+      success: true,
       message: 'Properties retrieved successfully',
       data: properties,
       meta,

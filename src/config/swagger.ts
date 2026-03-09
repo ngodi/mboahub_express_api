@@ -1,6 +1,9 @@
 // src/config/swagger.ts
 import swaggerJSDoc from 'swagger-jsdoc';
 import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const swaggerSpec = swaggerJSDoc({
   definition: {
@@ -12,7 +15,7 @@ export const swaggerSpec = swaggerJSDoc({
     },
     servers: [
       {
-        url: 'http://localhost:5000', // base URL
+        url: process.env.AWS_EC2_HOST, // base URL
       },
     ],
     components: {

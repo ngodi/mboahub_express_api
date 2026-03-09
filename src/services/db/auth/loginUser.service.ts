@@ -6,7 +6,9 @@ import {
 import { UserService } from '../users/user.service';
 import { BcryptLib } from '../../../libs/bcrypt.lib';
 import jwt from 'jsonwebtoken';
-import { setCookie } from '../../helpers/cookieSettings';
+import { setCookie } from '../../../helpers/cookieSettings';
+import { config } from '../../../config';
+import { StatusCodes } from 'http-status-codes';
 
 export const loginUser = async (
   email: string,
@@ -19,6 +21,14 @@ export const loginUser = async (
 
     if (!user) {
       return next(new NotFoundError("User doesn't exists!"));
+    }
+
+    if (!user.emailVerified) {
+      return res.status(StatusCodes.ACCEPTED).json({
+        status: false,
+        message: 'Please verify your email!',
+        meta: { error: 'EMAIL_VERIFY_ERROR', user },
+      });
     }
 
     const isMatch = await BcryptLib.comparePassword(
@@ -36,7 +46,7 @@ export const loginUser = async (
         email: user.dataValues.email,
         name: user.dataValues.name,
       },
-      process.env.ACCESS_TOKEN_SECRET!,
+      config.ACCESS_TOKEN_SECRET,
       { expiresIn: '7d' }
     );
 
@@ -46,7 +56,7 @@ export const loginUser = async (
         email: user.dataValues.email,
         name: user.dataValues.name,
       },
-      process.env.REFRESH_TOKEN_SECRET!,
+      config.REFRESH_TOKEN_SECRET,
       { expiresIn: '7d' }
     );
 

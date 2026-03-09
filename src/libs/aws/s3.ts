@@ -3,11 +3,18 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { S3Client } from '@aws-sdk/client-s3';
+import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
+import { Agent as HttpsAgent } from 'https';
 
 export const s3 = new S3Client({
-  region: process.env.AWS_REGION!,
+  region: process.env.AWS_REGION,
+  requestChecksumCalculation: 'WHEN_REQUIRED', // ✅ disables automatic CRC32
+  responseChecksumValidation: 'WHEN_REQUIRED',
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
+  requestHandler: new NodeHttpHandler({
+    httpsAgent: new HttpsAgent({ family: 4 }), // force IPv4 at socket level
+  }),
 });

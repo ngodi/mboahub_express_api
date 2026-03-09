@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middleware/isAuthenticated';
-import { s3ImageDelete, s3ImageUpload } from '../controllers/upload.controller';
+import {
+  getS3PresignUrl,
+  s3ImageDelete,
+} from '../controllers/upload.controller';
 import { upload } from '../libs/multerUploader';
 
 export const uploadRouter = Router();
 
 uploadRouter.post(
-  '/images',
+  '/presigned-urls',
   isAuthenticated,
   upload.array('images', 10),
-  s3ImageUpload
+  getS3PresignUrl
 );
 
 uploadRouter.delete(

@@ -17,7 +17,7 @@ export const fetchRecords = async (
     let page = Number(options.page) <= 0 ? 1 : Number(options.page);
     let limit = Number(options.limit) <= 0 ? 0 : Number(options.limit);
 
-    const offset = (page - 1) * limit! || 0;
+    const offset = (page - 1) * limit || 0;
 
     // Prepare Sort fields
     const orderDirection = options.sortBy?.map((field, i) => [

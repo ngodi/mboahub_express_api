@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { authService } from '../services/db/auth';
+import { AuthHelpers } from '../helpers/auth.helpers';
+import { ValidationError } from '../errors/custom-error';
 
 class AuthController {
   register = async (req: Request, res: Response, next: NextFunction) => {
@@ -23,6 +25,23 @@ class AuthController {
     }
   };
 
+  resendOtp = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.body.email) {
+      throw new ValidationError('Email is required');
+    }
+    await AuthHelpers.sendOtp(
+      {
+        email: req.body.email,
+        subject: 'User OTP Verification',
+        templateName: 'otp-activation-mail',
+      },
+      next
+    );
+    return res.status(StatusCodes.OK).json({
+      message: 'OTP sent successfully',
+    });
+  };
+
   login = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     const { user, accessToken, refreshToken } = (await authService.loginUser(
@@ -38,6 +57,13 @@ class AuthController {
         data: { user, accessToken, refreshToken },
       });
     }
+  };
+
+  logout = async (req: Request, res: Response, next: NextFunction) => {
+    res.clearCookie('access_token');
+    res.clearCookie('refresh_token');
+
+    res.status(StatusCodes.NO_CONTENT).json();
   };
 }
 

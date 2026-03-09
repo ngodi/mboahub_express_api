@@ -8,7 +8,7 @@ import {
 export interface PropertyInterface {
   id?: string;
   user_id?: string;
-  title: string;
+  listingName: string;
   propertyType: PropertyType;
   propertyCategory: PropertyCategory;
   propertyStatus: PropertyStatus;
@@ -18,13 +18,13 @@ export interface PropertyInterface {
   lat?: number;
   lng?: number;
   price: number;
-  description?: string;
-  parlours?: number;
+  summary?: string;
+  sittingRoom?: number;
   bedrooms?: number;
   bathrooms?: number;
   toilets?: number;
   kitchens?: number;
-  areaSize?: number;
+  totalArea?: number;
   fenced?: boolean;
   garage?: boolean;
   images?: string[];

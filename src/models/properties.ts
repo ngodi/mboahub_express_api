@@ -32,14 +32,13 @@ export const Property: ModelDefined<
       onUpdate: 'CASCADE',
     },
 
-    title: {
+    listingName: {
       type: DataTypes.STRING(50),
       allowNull: false,
       validate: {
-        notEmpty: { msg: 'Title is required' },
         len: {
           args: [3, 50],
-          msg: 'Title must be between 3 and 50   characters',
+          msg: 'Listing name must be between 3 and 50   characters',
         },
       },
     },
@@ -113,12 +112,12 @@ export const Property: ModelDefined<
       },
     },
 
-    description: {
+    summary: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
 
-    parlours: {
+    sittingRoom: {
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: 0,
@@ -153,7 +152,7 @@ export const Property: ModelDefined<
       validate: { min: 0 },
     },
 
-    areaSize: {
+    totalArea: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: true,
     },

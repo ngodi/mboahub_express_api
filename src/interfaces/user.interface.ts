@@ -6,11 +6,11 @@ export interface UserInterface {
   name: string;
   email: string;
   password?: string;
-  city: string;
-  country: string;
+  city?: string;
+  country?: string;
   emailVerified?: boolean;
-  phoneNumber: string;
-  status: UserStatusType;
+  phoneNumber?: string;
+  status?: UserStatusType;
   created_at?: Date;
   updated_at?: Date;
 }
