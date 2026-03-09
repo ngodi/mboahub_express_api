@@ -9,11 +9,11 @@ export const createPropertyValidator = [
   // ──────────────────────
   // Required core fields
   // ──────────────────────
-  body('title')
+  body('listingName')
     .notEmpty()
-    .withMessage('Title is required')
+    .withMessage('Listing name is required')
     .isLength({ min: 3, max: 50 })
-    .withMessage('Title must be between 3 and 50 characters')
+    .withMessage('Listing name must be between 3 and 50 characters')
     .trim(),
 
   body('propertyType')
@@ -70,15 +70,15 @@ export const createPropertyValidator = [
   // ──────────────────────
   // Optional location
   // ──────────────────────
-  body('lat')
-    .optional()
-    .isFloat({ min: -90, max: 90 })
-    .withMessage('Latitude must be between -90 and 90'),
+  // body('lat')
+  //   .optional()
+  //   .isFloat({ min: -90, max: 90 })
+  //   .withMessage('Latitude must be between -90 and 90'),
 
-  body('lng')
-    .optional()
-    .isFloat({ min: -180, max: 180 })
-    .withMessage('Longitude must be between -180 and 180'),
+  // body('lng')
+  //   .optional()
+  //   .isFloat({ min: -180, max: 180 })
+  //   .withMessage('Longitude must be between -180 and 180'),
 
   // ──────────────────────
   // Optional details

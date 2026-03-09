@@ -29,7 +29,7 @@ export const appRoutes = (app: Application) => {
   app.use('/api/v1/upload', uploadRouter);
 
   // property routes
-  app.use('/api/v1/properties', propertyRouter);
+  app.use('/api/v1/houses', propertyRouter);
 
   app.use((req: Request, res: Response, _next: NextFunction) => {
     throw new NotFoundError('Route not found', 'ROUTE_NOT_FOUND');

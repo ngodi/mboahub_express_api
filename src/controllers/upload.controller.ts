@@ -1,49 +1,42 @@
-import {
-  DeleteObjectCommand,
-  GetObjectCommand,
-  PutObjectCommand,
-} from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
-dotenv.config();
-
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from 'express';
-import sharp from 'sharp';
 import { s3 } from '../libs/aws/s3';
 import { url } from 'inspector/promises';
 
-export const s3ImageUpload = async (req: Request, res: Response) => {
-  const imageUrls =
-    req?.files && Array.isArray(req.files)
-      ? req.files.map(async (file: Express.Multer.File) => {
-          const buffer = await sharp(file?.buffer)
-            .resize({ height: 1920, width: 1080, fit: 'contain' })
-            .toBuffer();
+dotenv.config();
 
-          const params = {
-            Bucket: process.env.AWS_S3_BUCKET!,
-            Key: file?.originalname,
-            Body: buffer,
-            ContentType: file?.mimetype,
-          };
-          const command = new PutObjectCommand(params);
-          await s3.send(command);
+export const getS3PresignUrl = async (req: Request, res: Response) => {
+  try {
+    const { files } = req.body; // [{ filename, contentType }]
 
-          const getObjectParams = {
-            Bucket: process.env.AWS_S3_BUCKET!,
-            Key: file?.originalname,
-          };
+    const presignedUrls = await Promise.all(
+      files.map(async ({ filename, contentType }: any) => {
+        const key = `properties/${uuidv4()}/${filename}`;
 
-          const getCommand = new GetObjectCommand(getObjectParams);
-          const url = await getSignedUrl(s3, getCommand);
+        const command = new PutObjectCommand({
+          Bucket: process.env.AWS_S3_BUCKET,
+          Key: key,
+          ContentType: contentType,
+          ChecksumAlgorithm: undefined,
+        });
 
-          return url;
-        })
-      : [];
+        const url = await getSignedUrl(s3, command, { expiresIn: 300 }); // 5 min
 
-  Promise.all(imageUrls).then((urls) => {
-    res.send({ imageUrls: urls });
-  });
+        return {
+          url,
+          key,
+          fileUrl: `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`,
+        };
+      })
+    );
+
+    res.json(presignedUrls);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to generate presigned URLs' });
+  }
 };
 
 export const s3ImageDelete = (req: Request, res: Response) => {

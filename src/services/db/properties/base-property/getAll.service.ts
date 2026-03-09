@@ -13,6 +13,7 @@ export class GetAll {
     const includes = [
       {
         model: User,
+        as: 'owner',
         attributes: ['id', 'name', 'email'],
       },
     ];

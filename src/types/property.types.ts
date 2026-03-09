@@ -5,9 +5,11 @@ export enum PropertyType {
 
 export enum PropertyCategory {
   APARTMENT = 'APARTMENT',
-  HOUSE = 'HOUSE',
+  SINGLE_ROOM = 'SINGLE_ROOM',
   LAND = 'LAND',
-  COMMERCIAL = 'COMMERCIAL',
+  STUDIO = 'STUDIO',
+  VILLA = 'VILLA',
+  HOTEL = 'HOTEL',
 }
 
 export enum PropertyStatus {
