@@ -27,18 +27,14 @@ propertyRouter.put(
   propertyController.update
 );
 
+// Get all properties for the authenticated user
+propertyRouter.get('/user', isAuthenticated, propertyController.getAllByUser);
+
 // Get property by ID
 propertyRouter.get('/:id', isAuthenticated, propertyController.getById);
 
 // Get all properties
 propertyRouter.get('/', isAuthenticated, propertyController.getAll);
-
-// Get all properties for the authenticated user
-propertyRouter.get(
-  '/user/me',
-  isAuthenticated,
-  propertyController.getAllByUser
-);
 
 // Delete a property
 propertyRouter.delete('/:id', isAuthenticated, propertyController.delete);
